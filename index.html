@@ -266,107 +266,127 @@ pointer-events:none;
 z-index:2;
 }
 
-/* Diwali Rocket */
-.diwali-rocket{
+.rocket-trail{
     position:absolute;
-    bottom:-150px;
-    width:8px;
-    height:120px;
-    animation:rocketLaunch 6s linear infinite;
-    z-index:10;
+    bottom:-100px;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#fff;
+
+    box-shadow:
+        0 0 10px #fff,
+        0 0 20px #ffcc66,
+        0 0 40px #ff8800,
+        0 0 60px #ff6600;
+
+    animation:rocketFly 5s linear infinite;
+    z-index:20;
 }
 
-/* Wooden Stick */
-.diwali-rocket::before{
+/* Spark Stream */
+.rocket-trail::before{
     content:'';
     position:absolute;
-    bottom:0;
     left:50%;
-    transform:translateX(-50%);
-    width:3px;
-    height:85px;
-    background:#c79a63;
-    border-radius:2px;
-}
-
-/* Rocket Head */
-.diwali-rocket::after{
-    content:'';
-    position:absolute;
     top:0;
-    left:50%;
     transform:translateX(-50%);
-    width:18px;
-    height:35px;
+
+    width:2px;
+    height:350px;
+
+    background:
+        repeating-radial-gradient(
+            circle at center,
+            rgba(255,180,80,.95) 0 2px,
+            transparent 2px 8px
+        );
+
+    filter:
+        blur(1px)
+        drop-shadow(0 0 4px #ffae42)
+        drop-shadow(0 0 8px #ff8800);
+
+    opacity:.9;
+}
+
+/* Smoke */
+.rocket-trail::after{
+    content:'';
+    position:absolute;
+    left:50%;
+    top:50px;
+    transform:translateX(-50%);
+
+    width:25px;
+    height:250px;
+
     background:linear-gradient(
         to bottom,
-        #ff0000,
-        #ffcc00
+        rgba(255,255,255,.15),
+        rgba(255,255,255,0)
     );
-    border-radius:50% 50% 20% 20%;
-    box-shadow:
-        0 0 10px #ffcc00,
-        0 0 20px #ff6600;
+
+    filter:blur(10px);
 }
 
-/* Spark Trail */
-.diwali-rocket{
-    filter:drop-shadow(0 0 8px #ffcc00);
-}
+    @keyframes rocketFly{
 
-.diwali-rocket span{
-    display:none;
-}
-
-.diwali-rocket::marker{
-    display:none;
-}
-
-@keyframes rocketLaunch{
     0%{
-        bottom:-150px;
-        opacity:1;
+        bottom:-120px;
         transform:translateX(0);
+        opacity:1;
     }
 
-    20%{
+    25%{
+        transform:translateX(-20px);
+    }
+
+    50%{
         transform:translateX(-5px);
     }
 
-    40%{
-        transform:translateX(5px);
-    }
-
-    60%{
-        transform:translateX(-3px);
+    75%{
+        transform:translateX(25px);
     }
 
     100%{
-        bottom:115%;
-        opacity:0;
-        transform:translateX(8px);
+        bottom:95%;
+        transform:translateX(60px);
+        opacity:1;
     }
 }
 
-/* Fire/Sparks */
-.diwali-rocket .spark{
+
+    .explosion{
     position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#fff;
+    opacity:0;
+    animation:blast 5s linear infinite;
 }
 
-    
-    @keyframes rocketLaunch{
-    0%{
-        bottom:-150px;
-        opacity:1;
+@keyframes blast{
+
+    0%,85%{
+        opacity:0;
+        transform:scale(0);
     }
 
-    85%{
+    90%{
         opacity:1;
+        transform:scale(1);
+        box-shadow:
+            0 0 0 10px #fff,
+            0 0 0 30px #ffcc00,
+            0 0 0 60px transparent;
     }
 
     100%{
-        bottom:90%;
         opacity:0;
+        transform:scale(8);
     }
 }
     
@@ -392,11 +412,11 @@ z-index:2;
 
 <div class="stars" id="stars"></div>
 
-<div class="diwali-rocket" style="left:15%; animation-delay:0s;"></div>
-<div class="diwali-rocket" style="left:35%; animation-delay:2s;"></div>
-<div class="diwali-rocket" style="left:55%; animation-delay:4s;"></div>
-<div class="diwali-rocket" style="left:75%; animation-delay:1s;"></div>
-<div class="diwali-rocket" style="left:90%; animation-delay:3s;"></div>
+<div class="explosion"></div>
+    
+<div class="rocket-trail" style="left:20%; animation-delay:0s;"></div>
+<div class="rocket-trail" style="left:50%; animation-delay:2s;"></div>
+<div class="rocket-trail" style="left:80%; animation-delay:4s;"></div>
 
 
     
