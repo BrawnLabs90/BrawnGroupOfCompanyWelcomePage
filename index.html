@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Brawn Welcome</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#021126;
+color:#fff;
+position:relative;
+}
+
+/* Background Image */
+
+body::before{
+content:"";
+position:absolute;
+inset:0;
+background:url('assets/welcome-bg.png') center center/cover no-repeat;
+z-index:-3;
+}
+
+/* Dark Overlay */
+
+body::after{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(0,0,0,0.20);
+z-index:-2;
+}
+
+/* Floating Stars */
+
+.stars{
+position:absolute;
+width:100%;
+height:100%;
+overflow:hidden;
+z-index:1;
+}
+
+.star{
+position:absolute;
+width:3px;
+height:3px;
+background:#FFD700;
+border-radius:50%;
+animation:twinkle 3s infinite;
+}
+
+@keyframes twinkle{
+0%,100%{opacity:.2;}
+50%{opacity:1;}
+}
+
+/* Decorative Top Lights */
+
+.lights{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-evenly;
+padding-top:10px;
+z-index:5;
+}
+
+.bulb{
+width:12px;
+height:20px;
+border-radius:50%;
+animation:blink 1.2s infinite alternate;
+}
+
+.bulb:nth-child(1){background:#ff3b3b;box-shadow:0 0 15px #ff3b3b;}
+.bulb:nth-child(2){background:#ffd700;box-shadow:0 0 15px #ffd700;}
+.bulb:nth-child(3){background:#00ff99;box-shadow:0 0 15px #00ff99;}
+.bulb:nth-child(4){background:#00d4ff;box-shadow:0 0 15px #00d4ff;}
+.bulb:nth-child(5){background:#ff7b00;box-shadow:0 0 15px #ff7b00;}
+.bulb:nth-child(6){background:#ff66cc;box-shadow:0 0 15px #ff66cc;}
+.bulb:nth-child(7){background:#ffd700;box-shadow:0 0 15px #ffd700;}
+.bulb:nth-child(8){background:#00ff99;box-shadow:0 0 15px #00ff99;}
+
+@keyframes blink{
+from{opacity:.4;}
+to{opacity:1;}
+}
+
+/* Main Container */
+
+.container{
+width:90%;
+max-width:1100px;
+text-align:center;
+position:relative;
+z-index:10;
+padding:20px;
+}
+
+/* Congratulations */
+
+.congrats{
+font-family:'Cinzel',serif;
+font-size:68px;
+font-weight:700;
+color:#f7cf67;
+text-shadow:
+0 0 10px #f7cf67,
+0 0 25px #d8a423;
+margin-bottom:15px;
+animation:zoomIn 1.2s ease;
+}
+
+@keyframes zoomIn{
+from{
+opacity:0;
+transform:scale(.5);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+/* Company */
+
+.company{
+font-family:'Cinzel',serif;
+font-size:52px;
+font-weight:700;
+color:#2f8fff;
+margin-top:10px;
+}
+
+.tagline{
+font-size:22px;
+font-style:italic;
+color:#ff4f4f;
+margin-top:8px;
+}
+
+/* Welcome Box */
+
+.welcome-box{
+display:inline-block;
+margin:30px auto;
+padding:18px 60px;
+border:2px solid #c89b3c;
+border-radius:8px;
+background:rgba(0,0,0,.25);
+box-shadow:0 0 20px rgba(201,155,60,.4);
+}
+
+.welcome-box h2{
+font-size:48px;
+font-family:'Cinzel',serif;
+font-weight:600;
+}
+
+.gold{
+color:#f5c35f;
+}
+
+/* Greeting */
+
+.greeting{
+margin-top:10px;
+font-size:24px;
+color:white;
+}
+
+.blue{
+color:#2f8fff;
+font-weight:600;
+}
+
+/* Content */
+
+.content{
+max-width:1000px;
+margin:35px auto;
+font-size:25px;
+line-height:1.9;
+font-weight:300;
+}
+
+.content p{
+margin-bottom:25px;
+}
+
+/* Sparkles */
+
+.sparkle{
+position:absolute;
+font-size:22px;
+color:#FFD700;
+animation:float 4s infinite ease-in-out;
+}
+
+@keyframes float{
+0%,100%{
+transform:translateY(0px);
+opacity:.4;
+}
+50%{
+transform:translateY(-12px);
+opacity:1;
+}
+}
+
+/* Fireworks Canvas */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:2;
+}
+
+/* Rockets */
+
+.rocket{
+position:absolute;
+bottom:-100px;
+width:4px;
+height:55px;
+background:white;
+box-shadow:0 0 10px white;
+animation:launch 5s linear infinite;
+}
+
+@keyframes launch{
+0%{
+bottom:-100px;
+opacity:1;
+}
+100%{
+bottom:110%;
+opacity:0;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Decorative Lights -->
+
+<div class="lights">
+<div class="bulb"></div>
+<div class="bulb"></div>
+<div class="bulb"></div>
+<div class="bulb"></div>
+<div class="bulb"></div>
+<div class="bulb"></div>
+<div class="bulb"></div>
+<div class="bulb"></div>
+</div>
+
+<!-- Stars -->
+
+<div class="stars" id="stars"></div>
+
+<!-- Rockets -->
+
+<div class="rocket" style="left:10%"></div>
+<div class="rocket" style="left:25%"></div>
+<div class="rocket" style="left:40%"></div>
+<div class="rocket" style="left:60%"></div>
+<div class="rocket" style="left:75%"></div>
+<div class="rocket" style="left:90%"></div>
+
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+
+<div class="congrats">
+CONGRATULATIONS
+</div>
+
+<div class="company">
+BRAWN GROUP OF COMPANIES
+</div>
+
+<div class="tagline">
+for better life..
+</div>
+
+<div class="welcome-box">
+<h2>
+Welcome to the <span class="gold">Brawn Family</span>
+</h2>
+</div>
+
+<div class="greeting">
+Greetings from <span class="blue">Brawn Group of Companies</span>
+</div>
+
+<div class="content">
+
+<p>
+Your form has been successfully submitted, and we are delighted to welcome you to the
+<span class="gold">Brawn Family</span>.
+</p>
+
+<p>
+At <span class="blue">Brawn Group of Companies</span>, we believe that our employees are our greatest strength.
+We are committed to creating a supportive, respectful, and growth-oriented work environment where every individual has the opportunity to contribute and succeed.
+</p>
+
+<p>
+Our HR team will review your submitted details and may contact you if any additional information or documentation is required.
+</p>
+
+<p>
+We look forward to your valuable contribution and wish you a successful and rewarding journey with
+<span class="blue">Brawn Group of Companies</span>.
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+/* Stars */
+
+const stars=document.getElementById('stars');
+
+for(let i=0;i<120;i++){
+
+let s=document.createElement('div');
+
+s.className='star';
+
+s.style.left=Math.random()*100+'%';
+s.style.top=Math.random()*100+'%';
+s.style.animationDelay=Math.random()*3+'s';
+
+stars.appendChild(s);
+}
+
+/* Confetti */
+
+function celebration(){
+
+confetti({
+particleCount:180,
+spread:150,
+origin:{y:0.55}
+});
+
+}
+
+setInterval(celebration,3000);
+
+/* Fireworks */
+
+function fireworks(){
+
+confetti({
+particleCount:120,
+angle:60,
+spread:70,
+origin:{x:0}
+});
+
+confetti({
+particleCount:120,
+angle:120,
+spread:70,
+origin:{x:1}
+});
+
+}
+
+setInterval(fireworks,1800);
+
+/* Center Fountain (Anar) */
+
+function anar(){
+
+confetti({
+particleCount:220,
+spread:60,
+startVelocity:70,
+gravity:1,
+ticks:250,
+origin:{
+x:0.5,
+y:0.95
+}
+});
+
+}
+
+setInterval(anar,2500);
+
+</script>
+
+</body>
+</html>
